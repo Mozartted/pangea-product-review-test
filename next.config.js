@@ -1,5 +1,5 @@
 module.exports = {
     env: {
-      customKey: 'my-value',
+      GRAPHQL_URL: "https://pangaea-interviews.now.sh/api/graphql"
     },
   }

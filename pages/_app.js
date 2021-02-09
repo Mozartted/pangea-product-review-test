@@ -7,17 +7,24 @@ import { PersistGate } from "redux-persist/integration/react";
 import initialStore from "../store/Reducers/inital-state";
 
 import { onError } from "apollo-link-error";
-import { ToastProvider } from 'react-toast-notifications'
+import { ToastProvider, useToasts } from 'react-toast-notifications'
 import { ApolloClient } from 'apollo-client';
-import {InMemoryCache} from "apollo-boost";
+import {InMemoryCache, ObjectCache} from "apollo-boost";
 import { ApolloProvider} from '@apollo/react-hooks';
+
+import { HttpLink} from 'apollo-link-http'
+import {ApolloLink , concat, from} from "apollo-link"
+import {cancelRequestLink} from "../modules/cancelRequests"
 
 function MyApp({ Component, pageProps }) {
   let storeValues = configureStoreDev(initialStore);
-
+  
 	const client = new ApolloClient({
-    uri: process.env.GRAPHQL_URL,
-		cache: new InMemoryCache(),
+    cache: new InMemoryCache(),
+    ssrMode: typeof window === "undefined", // set to true for SSR
+    link: new HttpLink({
+      uri: process.env.GRAPHQL_URL
+    }),
 	});
   
   return (

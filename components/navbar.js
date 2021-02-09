@@ -3,9 +3,9 @@ import { Container, Navbar, Nav, NavDropdown, Form, FormControl, Button } from '
 const CustomNavbar = () => {
     return <Navbar bg="light" expand="lg">
     <Container className="container-fluid">
-      <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+      <Navbar.Brand href="#home"><h3>Lumin</h3></Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
+      {/* <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
           <Nav.Link href="#home">Home</Nav.Link>
           <Nav.Link href="#link">Link</Nav.Link>
@@ -21,7 +21,7 @@ const CustomNavbar = () => {
           <FormControl type="text" placeholder="Search" className="mr-sm-2" />
           <Button variant="outline-primary">Search</Button>
         </Form>
-      </Navbar.Collapse>
+      </Navbar.Collapse> */}
     </Container>
   </Navbar>
 }
