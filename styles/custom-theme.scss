@@ -15,9 +15,14 @@
     width: 500px;
     height: 100%;
     -webkit-transform: translate3d(0%, 0, 0);
-        -ms-transform: translate3d(0%, 0, 0);
-         -o-transform: translate3d(0%, 0, 0);
-            transform: translate3d(0%, 0, 0);
+    -ms-transform: translate3d(0%, 0, 0);
+    -o-transform: translate3d(0%, 0, 0);
+    transform: translate3d(0%, 0, 0);
+}
+
+.modal-body{
+    height: 80vh;
+    overflow-y: auto;
 }
 
 .modal.left .modal-dialog {
@@ -42,22 +47,22 @@
 .modal.left.fade .modal-dialog{
     // left: -500px;
     -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
-       -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
-         -o-transition: opacity 0.3s linear, left 0.3s ease-out;
+    -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
+    -o-transition: opacity 0.3s linear, left 0.3s ease-out;
             transition: opacity 0.3s linear, left 0.3s ease-out;
-}
-
-.modal.left.fade.in .modal-dialog{
-    left: 0;
-}
-    
-/*Right*/
-.modal.right.fade .modal-dialog {
-    // right: -500px;
+        }
+        
+        .modal.left.fade.in .modal-dialog{
+            left: 0;
+        }
+        
+        /*Right*/
+        .modal.right.fade .modal-dialog {
+            // right: -500px;
     -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
-       -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
-         -o-transition: opacity 0.3s linear, right 0.3s ease-out;
-            transition: opacity 0.3s linear, right 0.3s ease-out;
+    -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+    -o-transition: opacity 0.3s linear, right 0.3s ease-out;
+    transition: opacity 0.3s linear, right 0.3s ease-out;
 }
 
 .modal.right.fade.in .modal-dialog {
@@ -77,20 +82,20 @@
 
 
 .demo {
-padding-top: 60px;
-padding-bottom: 110px;
+    padding-top: 60px;
+    padding-bottom: 110px;
 }
 
 .btn-demo {
-margin: 15px;
-padding: 10px 15px;
-border-radius: 0;
-font-size: 16px;
-background-color: #FFFFFF;
+    margin: 15px;
+    padding: 10px 15px;
+    border-radius: 0;
+    font-size: 16px;
+    background-color: #FFFFFF;
 }
 
 .btn-demo:focus {
-outline: 0;
+    outline: 0;
 }
 
 .product-box{
@@ -99,4 +104,44 @@ outline: 0;
 
 .product-section{
     min-height: 100vh;
+}
+
+.quantity {
+    // padding-top: 20px;
+    margin-top:   10px;
+}
+
+.quantity>input {
+    -webkit-appearance: none;
+    border: none;
+    text-align: center;
+    width: 32px;
+    font-size: 16px;
+    color: #43484D;
+    font-weight: 300;
+}
+     
+.cart-button{
+    width: 30px;
+    height: 30px;
+    background-color: #E1E8EE;
+    border-radius: 6px !important;
+    border: none !important;
+    cursor: pointer;
+}
+// .minus-btn img {
+//   margin-bottom: 3px;
+// }
+// .plus-btn img {
+//   margin-top: 2px;
+// }
+     
+button:focus,
+input:focus {
+    outline:0;
+}
+
+.currency-dropmenu{
+    max-height: 600px;
+    overflow-y: auto;
 }

@@ -1,8 +1,4 @@
-// helper functions to work with lots of stuffs
-import uuidGenerator from "uuid/v4"
-import crypto from "crypto"
-import {useLocation} from "react-router-dom"
-import moment from "moment"
+import getCurrencySymbol from "currency-symbol-map"
 
 export function insertItem(array, index, item) {
     return [
@@ -12,12 +8,6 @@ export function insertItem(array, index, item) {
     ];
 }
 
-// A custom hook that builds on useLocation to parse
-// the query string for you.
-export function useQuery() {
-    return new URLSearchParams(useLocation().search);
-  }
-  
 
 export function removeItem(array, index) {
     return [
@@ -26,22 +16,8 @@ export function removeItem(array, index) {
     ];
 }
 
-export function generateUUID(){
-    const code = uuidGenerator();
-    return ('TRANS_REF-'+code)
-}
-
-export const integrityValue = (payload) => {
-    let hashedPayload = '';
-    const keys =  Object.keys(payload).sort();
-    for(var index in keys){
-        const key = keys[index];
-        hashedPayload += payload[key];
-    }
-    let hashString = hashedPayload + process.env.REACT_APP_RAVE_SECRET_KEY;
-
-    const shaHash = crypto.createHash('sha256').update(hashString, 'utf8').digest('hex');
-    return shaHash;
+export const getSymbol = (currency) => {
+    return getCurrencySymbol(currency) || ""
 }
 
 export const formatCurrency = (value) => {
@@ -49,28 +25,4 @@ export const formatCurrency = (value) => {
     const numberFormat2 = new Intl.NumberFormat('en-US', options2);
 
     return numberFormat2.format(value)
-} 
-
-export const momentInTime = (date) => {
-    // updates for the next space.
-    return moment(date).format("DD MMM, YYYY")
-}
-
-export const momentInTimeDate = (date) => {
-    return moment(date).format("DD MMM, YYYY HH:mm")
-}
-
-export const momentInThePast = (date) => {
-    return moment(date).isBefore(moment(new Date()))
-}
-
-export const percentageOfSuccess = (milestones) => {
-    return (milestones.filter((item) => item.disburseStatus == "CONFIRMED").length / milestones.length) * 100
-}
-
-export const milestoneCalls = (milestones) => {
-    // get number that are completed
-    let realscore = milestones.filter((item) => item.disburseStatus == "CONFIRMED");
-    let score = `${realscore.length}/${milestones.length}`
-    return score;
 }

@@ -7,21 +7,72 @@ const INITIAL_STATE = initialState;
 
 let cartReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {	
-		case actionType.CONTRACT_UPDATE:
+		case actionType.ADD_TO_CART:
 			return {
 				...state,
-				newContract: {
-					...state.newContract,
-					...action.data
+				cart: [
+					...state.cart,
+					...[
+						{
+							...action.data,
+							amount: 1
+						}
+					]
+				]
+			}
+		case actionType.ADD_TO_ITEM:
+			// update the cart item with a new amount.
+			// get the index
+			let addIndex = state.cart.findIndex((item, index) => item.title == action.data.title);
+			let addCart = [...state.cart]
+
+			let currentProduct = {...addCart[addIndex]}
+
+			// let product = state.cart.filter((item, addIndex) => item.title == action.data.title)
+			let recreatedProduct = {...currentProduct, amount: currentProduct.amount + 1};
+			addCart[addIndex] = recreatedProduct
+			return {
+				...state,
+				cart: addCart
+			}
+		case actionType.MINUS_FROM_ITEM:
+			// update the cart item with a new amount.
+			// get the index
+			let removeIndex = state.cart.findIndex((item, index) => item.title == action.data.title);
+			let removeCart = [...state.cart]
+
+			let product = {...removeCart[removeIndex]}
+
+			// let product = state.cart.filter((item, removeIndex) => item.title == action.data.title)
+			if(product.amount - 1 <= 0){
+				// remove the item from the list.
+				if (removeIndex > -1) {
+					removeCart.splice(removeIndex, 1);
+				  }
+				// add back to carts.
+				return {
+					...state,
+					cart: removeCart
+				}
+			}else{
+				let recreatedProduct = {...product, amount: product.amount - 1};
+				removeCart[removeIndex] = recreatedProduct
+				return {
+					...state,
+					cart: removeCart
 				}
 			}
-			break;
-		case actionType.GET_CONTRACTS:
+		case actionType.REMOVE_FROM_CART:
+			let cart = [...state.cart]
+			let filteredCart = cart.filter((item, index) => {
+				return item.title !== action.data.title
+			})
 			return {
 				...state,
-				contracts: action.data
+				cart: [
+					...filteredCart
+				]
 			}
-			break;
 		default:
 			return state
 			break;
