@@ -9,6 +9,12 @@ export const addToCart = (item) => (dispatch, getstate) => new Promise( async (r
 			type: actionType.ADD_TO_CART,
 			data: item
 		})
+	}else{
+		// increas the item number
+		await dispatch({
+			type: actionType.ADD_TO_ITEM,
+			data: item
+		})
 	}
 	resolve();
 }).catch(err=>{
@@ -24,7 +30,6 @@ export const addToItem = (item) => (dispatch) => new Promise( async (resolve, re
 }).catch(err=>{
 	throw err
 });
-
 
 export const newCurrencyFilter = (products) => (dispatch) =>  new Promise( async (resolve, reject) => {
 	await dispatch({
