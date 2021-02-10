@@ -6,15 +6,18 @@ import {configureStoreDev} from '../store';
 import { PersistGate } from "redux-persist/integration/react";
 import initialStore from "../store/Reducers/inital-state";
 
-import { onError } from "apollo-link-error";
-import { ToastProvider, useToasts } from 'react-toast-notifications'
+import { ToastProvider} from 'react-toast-notifications'
 import { ApolloClient } from 'apollo-client';
-import {InMemoryCache, ObjectCache} from "apollo-boost";
+import {InMemoryCache} from "apollo-boost";
 import { ApolloProvider} from '@apollo/react-hooks';
 
 import { HttpLink} from 'apollo-link-http'
-import {ApolloLink , concat, from} from "apollo-link"
-import {cancelRequestLink} from "../modules/cancelRequests"
+import { DefaultToastContainer } from 'react-toast-notifications';
+
+const MyCustomToastContainer = props => (
+  <DefaultToastContainer {...props} style={{ zIndex: 9999 }} />
+);
+
 
 function MyApp({ Component, pageProps }) {
   let storeValues = configureStoreDev(initialStore);
@@ -30,7 +33,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <Provider store={storeValues.store}>
       <PersistGate loading={null} persistor={storeValues.persistor}>
-        <ToastProvider placement="top-left">
+        <ToastProvider placement="top-left" components={{ ToastContainer: MyCustomToastContainer }}>
           <ApolloProvider client={client}>
             <Component {...pageProps} />
           </ApolloProvider>
