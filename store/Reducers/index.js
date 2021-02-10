@@ -35,6 +35,21 @@ let cartReducer = (state = INITIAL_STATE, action) => {
 				...state,
 				cart: addCart
 			}
+		case actionType.UPDATE_CART:
+			// update the cart item with a new amount.
+			// get the index
+			// for each item in the cart find the product that matches and update it's index.
+			let updateCart = [...state.cart];
+			let actionproducts = action.data;
+
+			state.cart.forEach((item, index) => {
+				let indexForUpdate = actionproducts.findIndex((product) => product.title == item.title)
+				updateCart[index] = {...state.cart[index], price: actionproducts[indexForUpdate].price}
+			})
+			return {
+				...state,
+				cart: updateCart
+			}
 		case actionType.MINUS_FROM_ITEM:
 			// update the cart item with a new amount.
 			// get the index
@@ -78,10 +93,23 @@ let cartReducer = (state = INITIAL_STATE, action) => {
 			break;
 	}
 }
+let currencyReducer = (state = INITIAL_STATE, action) => {
+	switch (action.type) {	
+		case actionType.UPDATE_CURRENCY:
+			return {
+				...state,
+				currency: action.data
+			}
+		default:
+			return state
+			break;
+	}
+}
 
 
 const rootReducer = reduceReducers(
 	cartReducer,
+	currencyReducer
 );
 
 

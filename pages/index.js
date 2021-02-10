@@ -6,26 +6,35 @@ import Navbar from "../components/navbar"
 import CartModal from "../components/cart-modal"
 import ProductView from "../components/product-view"
 import {useToasts} from 'react-toast-notifications'
-
+import {ShoppingCart} from "react-feather"
 import {useQuery, useLazyQuery} from "@apollo/react-hooks"
 import {GET_PRODUCTS, GET_CURRENCY} from "../utils/queries"
 
 // actions
-import {addToCart, removeFromCart} from "../store/Actions/Cart"
+import {addToCart, removeFromCart, newCurrencyFilter} from "../store/Actions/cart"
+import {updateCurrentCurrency} from "../store/Actions/currency"
 
 const Home = (props) => {
 
   const [products, updateProducts] = useState([])
   const [currencies, updateCurrencies] = useState([])
-  const [currentCurrency, updateCurrentCurrency] = useState("USD")
+  // const [currentCurrency, updateCurrentCurrency] = useState("USD")
   const [cartModalState, updateCartModalState] = useState(false)
 
   const [loadProducts, {loading: productLoading, data: productData}]= useLazyQuery(GET_PRODUCTS, {
       variables: {
-        currency: currentCurrency
+        currency: props.currency
       },
-      onCompleted: data => {
+      onCompleted: async data => {
           updateProducts(data.products)
+          if(props.cart.length > 0){
+            let cartTitles = props.cart.map((item) => item.title)
+            // get new cart items.
+            let newCartItems = data.products.filter((item) => {
+              return cartTitles.includes(item.title)
+            })
+            await props.newCurrencyFilter(newCartItems)
+          }
       }
   })
 
@@ -36,13 +45,22 @@ const Home = (props) => {
         }
     })
       
-  const loadCurrency = (newCurrency) => {
-    updateCurrentCurrency(newCurrency)
-    loadProducts({
-      variables: {
-        currency: newCurrency
-      }
-    })
+  const loadCurrency = async (newCurrency) => {
+    try {
+        await props.updateCurrentCurrency(newCurrency)
+        await loadProducts({
+          variables: {
+            currency: newCurrency
+          }
+        })
+        // call to store to update the products loaded with the new price for the cart items.
+    } catch (e) {
+      addToast(e.message, {
+        appearance: "warning",
+        autoDismiss: true
+      })
+    }
+    // update the cart with the new prices.
 
     // update the cart stored values.
     
@@ -85,7 +103,7 @@ const Home = (props) => {
   
   return (
     <>
-      <CartModal show={cartModalState} handleClose={closeCart} {...{currencies, currentCurrency, loadCurrency}} />
+      <CartModal show={cartModalState} handleClose={closeCart} {...{currencies, currentCurrency: props.currency, loadCurrency}} />
       <Head>
         <title>All lumin products</title>
         <link rel="icon" href="/favicon.ico" />
@@ -116,11 +134,22 @@ const Home = (props) => {
                   </div>
                 : 
                 <>
-                    {products.map((item, index) => {
-                      return  <Col md={4} sm={6} className="my-5" key={index}>
-                                <ProductView item={item} addToCart={addToCart} currentCurrency={currentCurrency}/>
-                              </Col>
-                    })}
+                    {
+                      products.length > 0 ? 
+                      <>
+                        {
+                          products.map((item, index) => {
+                            return  <Col md={4} sm={6} className="my-5" key={index}>
+                                      <ProductView item={item} addToCart={addToCart} currentCurrency={props.currency}/>
+                                    </Col>
+                          })
+                        }
+                      </>:
+                      <div className="col-12 mt-5 justify-content-center text-center">
+                          <ShoppingCart size={70} color={'#4B5648'}/>
+                          <p>You have no items in your cart</p>
+                      </div>
+                    }
                 </>
               }
             </Row>
@@ -132,10 +161,15 @@ const Home = (props) => {
   )
 }
 
-const mapStateToProps = (state) => ({})
+const mapStateToProps = (state) => ({
+  cart: state.cart,
+  currency: state.currency
+})
 const mapDispatchToProps = {
   addToCart,
   removeFromCart,
+  updateCurrentCurrency,
+  newCurrencyFilter
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)

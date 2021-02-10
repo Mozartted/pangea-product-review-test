@@ -8,5 +8,9 @@ export default keymirror({
   MINUS_FROM_ITEM: null,
   REMOVE_FROM_CART: null,
   UPDATE_CART: null,
-  UPDATE_CART_CURRENCY: null
+  UPDATE_CART_CURRENCY: null,
+
+
+  // currency
+  UPDATE_CURRENCY: null
 });

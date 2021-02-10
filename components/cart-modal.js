@@ -1,10 +1,9 @@
 import {Modal, Button, Card, Col, Dropdown} from "react-bootstrap"
 import {connect} from 'react-redux'
-import {X, ShoppingCart} from "react-feather"
+import {X, ShoppingCart, ArrowLeft} from "react-feather"
 
 import {getSymbol} from "../utils/helpers"
-
-import {addToItem, minusFromItem} from "../store/Actions/Cart"
+import {addToItem, minusFromItem, removeFromCart} from "../store/Actions/cart"
 
 const CartModal = ({
     show, 
@@ -14,7 +13,8 @@ const CartModal = ({
     minusItem, 
     currentCurrency, 
     currencies,
-    loadCurrency
+    loadCurrency,
+    removeItem
 }) => {
 
     const sumUpAndTotal = () => {
@@ -28,10 +28,17 @@ const CartModal = ({
 
     return (
         <Modal className="right" show={show} onHide={handleClose}>
-            <Modal.Header closeButton>
-            <Modal.Title>Your cart</Modal.Title>
+            <Modal.Header className="bg-gray-green">
+                <div className="row">
+                    <div className="col-auto">
+                        <ArrowLeft onClick={handleClose}/>
+                    </div>
+                    <div className="col">
+                        <h5>YOUR CART</h5>
+                    </div>
+                </div>
             </Modal.Header>
-            <Modal.Body className="bg-gray-green overflow-">
+            <Modal.Body className="bg-gray-green overflow-auto">
                 <div className="container">
                     <div className="row mt-2">
                         <div className="col">
@@ -65,7 +72,7 @@ const CartModal = ({
                                                                 <h5>{item.title}</h5>
                                                             </Col>
                                                             <Col md="auto" className="ml-auto">
-                                                                <X/>
+                                                                <X onClick={() => removeItem(item)}/>
                                                             </Col>
                                                         </div>
                                                         <div className="row">
@@ -139,7 +146,8 @@ const mapStateToProps = (state) => ({
 })
 const mapDispatchToProps = {
     addItem: addToItem,
-    minusItem: minusFromItem
+    minusItem: minusFromItem,
+    removeItem: removeFromCart
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartModal)

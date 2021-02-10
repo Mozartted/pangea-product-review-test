@@ -12,7 +12,7 @@ const CustomNavbar = ({openCart}) => {
           <Nav.Link href="#link">Learn</Nav.Link>
         </Nav>
         <Nav className="ml-auto">
-          <Nav.Link onClick={openCart}><ShoppingCart/></Nav.Link>
+          <Nav.Link onClick={openCart}>Account <ShoppingCart/></Nav.Link>
         </Nav>
         {/* <Form inline>
           <FormControl type="text" placeholder="Search" className="mr-sm-2" />

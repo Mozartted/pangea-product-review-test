@@ -30,7 +30,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <Provider store={storeValues.store}>
       <PersistGate loading={null} persistor={storeValues.persistor}>
-        <ToastProvider>
+        <ToastProvider placement="top-left">
           <ApolloProvider client={client}>
             <Component {...pageProps} />
           </ApolloProvider>
