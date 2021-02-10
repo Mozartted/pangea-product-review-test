@@ -140,7 +140,7 @@ const Home = (props) => {
                       </>:
                       <div className="col-12 mt-5 justify-content-center text-center">
                           <ShoppingCart size={70} color={'#4B5648'}/>
-                          <p>You have no items in your cart</p>
+                          <p>No products available at the moment</p>
                       </div>
                     }
                 </>
