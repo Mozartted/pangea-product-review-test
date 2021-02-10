@@ -31,7 +31,6 @@ export const addToItem = (item) => (dispatch) => new Promise( async (resolve, re
 	throw err
 });
 
-
 export const newCurrencyFilter = (products) => (dispatch) =>  new Promise( async (resolve, reject) => {
 	await dispatch({
         type: actionType.UPDATE_CART,
