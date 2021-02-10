@@ -2,10 +2,12 @@
   "name": "pangea-test-next-app",
   "version": "0.1.0",
   "private": true,
+  "main": "server.js",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "deploy": "yarn build && cross-env NODE_ENV=production firebase deploy --only functions,hosting"
   },
   "dependencies": {
     "@apollo/react-hooks": "^4.0.0",
@@ -18,7 +20,11 @@
     "apollo-link-http": "^1.5.17",
     "apollo-upload-client": "^14.1.3",
     "bootstrap": "^4.6.0",
+    "cross-env": "^7.0.3",
     "currency-symbol-map": "^5.0.1",
+    "firebase": "^8.2.6",
+    "firebase-admin": "^9.4.2",
+    "firebase-functions": "^3.13.1",
     "graphql": "^15.5.0",
     "graphql-tag": "^2.11.0",
     "keymirror": "^0.1.1",
