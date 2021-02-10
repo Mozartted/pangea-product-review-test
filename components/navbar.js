@@ -16,7 +16,7 @@ const CustomNavbar = ({openCart, cart}) => {
           <Nav.Link onClick={openCart}>
             Account <ShoppingCart/> 
             {
-              cart.length > 0?  <span class="ml-2 badge rounded badge-secondary">{cart.length}</span>: null
+              cart.length > 0?  <span className="ml-2 badge rounded badge-secondary">{cart.length}</span>: null
             }
           </Nav.Link>
         </Nav>
