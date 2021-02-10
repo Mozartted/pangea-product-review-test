@@ -21,8 +21,6 @@ export const getSymbol = (currency) => {
 }
 
 export const formatCurrency = (value) => {
-    const options2 = { style: 'currency', currency: 'NGN' };
-    const numberFormat2 = new Intl.NumberFormat('en-US', options2);
-
+    const numberFormat2 = new Intl.NumberFormat();
     return numberFormat2.format(value)
 }

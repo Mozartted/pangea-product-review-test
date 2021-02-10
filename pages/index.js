@@ -18,7 +18,6 @@ const Home = (props) => {
 
   const [products, updateProducts] = useState([])
   const [currencies, updateCurrencies] = useState([])
-  // const [currentCurrency, updateCurrentCurrency] = useState("USD")
   const [cartModalState, updateCartModalState] = useState(false)
 
   const [loadProducts, {loading: productLoading, data: productData}]= useLazyQuery(GET_PRODUCTS, {
@@ -59,14 +58,8 @@ const Home = (props) => {
         appearance: "warning",
         autoDismiss: true
       })
-    }
-    // update the cart with the new prices.
-
-    // update the cart stored values.
-    
+    }    
   }
-      
-      // update current currency and update the list of data with the new currencies for each of them.
   
   // setup tosts.
   const {addToast} = useToasts()
@@ -117,7 +110,7 @@ const Home = (props) => {
             <Row>
               <Col md={12}>
                 <h1 className="display-3"> All Products </h1>
-                <p>A 360 look at lumin</p>
+                <p>A 360° look at lumin</p>
               </Col>
             </Row>
           </Container>

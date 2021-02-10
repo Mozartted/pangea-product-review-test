@@ -129,13 +129,15 @@
     border: none !important;
     cursor: pointer;
 }
-// .minus-btn img {
-//   margin-bottom: 3px;
-// }
-// .plus-btn img {
-//   margin-top: 2px;
-// }
-     
+
+.zoom {
+    transition: transform .25s; /* Animation */
+}
+  
+.zoom:hover {
+    transform: scale(1.05); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
 button:focus,
 input:focus {
     outline:0;

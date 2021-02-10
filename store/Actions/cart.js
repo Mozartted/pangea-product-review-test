@@ -1,10 +1,15 @@
 import actionType from "../action-type"
 
-export const addToCart = (item) => (dispatch) => new Promise( async (resolve, reject) => {
-	await dispatch({
-        type: actionType.ADD_TO_CART,
-        data: item
-	})
+export const addToCart = (item) => (dispatch, getstate) => new Promise( async (resolve, reject) => {
+	// check if the item already exists before attempting to add it.
+	let cart = getstate().cart
+	let includedProduct = cart.filter((product) => product.title == item.title)
+	if(includedProduct.length < 1){
+		await dispatch({
+			type: actionType.ADD_TO_CART,
+			data: item
+		})
+	}
 	resolve();
 }).catch(err=>{
 	throw err

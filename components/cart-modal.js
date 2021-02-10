@@ -2,7 +2,7 @@ import {Modal, Button, Card, Col, Dropdown} from "react-bootstrap"
 import {connect} from 'react-redux'
 import {X, ShoppingCart, ArrowLeft} from "react-feather"
 
-import {getSymbol} from "../utils/helpers"
+import {getSymbol, formatCurrency} from "../utils/helpers"
 import {addToItem, minusFromItem, removeFromCart} from "../store/Actions/cart"
 
 const CartModal = ({
@@ -23,40 +23,43 @@ const CartModal = ({
             sum += (item.price * item.amount)
         })
 
-        return sum
+        return formatCurrency(sum)
     }
 
     return (
         <Modal className="right" show={show} onHide={handleClose}>
             <Modal.Header className="bg-gray-green">
-                <div className="row">
-                    <div className="col-auto">
-                        <ArrowLeft onClick={handleClose}/>
+               <div className="container">
+                    <div className="row">
+                        <div className="col-auto">
+                            <ArrowLeft onClick={handleClose}/>
+                        </div>
+                        <div className="col text-center">
+                            <h5>YOUR CART</h5>
+                        </div>
+                        <div className="col-auto"></div>
                     </div>
-                    <div className="col">
-                        <h5>YOUR CART</h5>
+                    <div className="row mt-3">
+                        <div className="col">
+                            <Dropdown>
+                                <Dropdown.Toggle variant="white" id="dropdown-basic" className="bg-white">
+                                {currentCurrency}
+                                </Dropdown.Toggle>
+
+                                <Dropdown.Menu className="currency-dropmenu">
+                                    {
+                                        currencies.map((currency, index) => (
+                                            <Dropdown.Item key={index} onClick={()=>loadCurrency(currency)}>{currency}</Dropdown.Item>
+                                        ))
+                                    }
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        </div>
                     </div>
-                </div>
+               </div>
             </Modal.Header>
             <Modal.Body className="bg-gray-green overflow-auto">
                 <div className="container">
-                    <div className="row mt-2">
-                        <div className="col">
-                        <Dropdown>
-                            <Dropdown.Toggle variant="white" id="dropdown-basic" className="bg-white">
-                               {currentCurrency}
-                            </Dropdown.Toggle>
-
-                            <Dropdown.Menu className="currency-dropmenu">
-                                {
-                                    currencies.map((currency, index) => (
-                                        <Dropdown.Item key={index} onClick={()=>loadCurrency(currency)}>{currency}</Dropdown.Item>
-                                    ))
-                                }
-                            </Dropdown.Menu>
-                        </Dropdown>
-                        </div>
-                    </div>
                     {
                         cart.length > 0 ? 
                         <>
@@ -72,12 +75,12 @@ const CartModal = ({
                                                                 <h5>{item.title}</h5>
                                                             </Col>
                                                             <Col md="auto" className="ml-auto">
-                                                                <X onClick={() => removeItem(item)}/>
+                                                                <X onClick={() => removeItem(item)} className="zoom"/>
                                                             </Col>
                                                         </div>
                                                         <div className="row">
                                                             <Col md="auto" className="ml-auto">
-                                                                <img src={item.image_url} width="25" height="25" />
+                                                                <img src={item.image_url} className="zoom" width="25" height="25" />
                                                             </Col>
                                                         </div>
                                                         <div className="row">
@@ -86,14 +89,14 @@ const CartModal = ({
                                                                     <button className="plus-btn cart-button border-0 rounded" onClick={() => minusItem(item)}>
                                                                     -
                                                                     </button>
-                                                                    <input type="text" name="name" value={item.amount} className="border-1" onChange={() => {}} />
+                                                                    <input type="text" name="name" value={item.amount} className="border-1" disabled={true} onChange={() => {}} />
                                                                     <button className="minus-btn cart-button border-0 rounded" onClick={() => addItem(item)}>
                                                                     +
                                                                     </button>
                                                                 </div>
                                                             </Col>
                                                             <Col md="auto" className="ml-auto mt-2">
-                                                            <p>{getSymbol(currentCurrency)} {item.price * item.amount}</p>
+                                                            <p>{getSymbol(currentCurrency)} {formatCurrency(item.price * item.amount)}</p>
                                                             </Col>
                                                         </div>
                                                     </Card.Body>
@@ -115,14 +118,16 @@ const CartModal = ({
                 </div>
             </Modal.Body>
             <Modal.Footer className="bg-gray-green overflow-">
-                <hr/>
+                <div className="col-12">
+                    <hr className="bg-gray-green-dark"/>
+                </div>
                 <div className="col-12">
                     <div className="row">
                         <div className="col-auto">
-                            <small>Subtotal</small>
+                            Subtotal
                         </div>
                         <div className="col-auto ml-auto">
-                            {getSymbol(currentCurrency)} {sumUpAndTotal()}
+                            <b>{getSymbol(currentCurrency)} {sumUpAndTotal()} </b>
                         </div>
                     </div>
                 </div>
