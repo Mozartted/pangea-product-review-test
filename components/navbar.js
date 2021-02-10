@@ -1,7 +1,8 @@
 import { Container, Navbar , Nav} from 'react-bootstrap'
 import {ShoppingCart} from "react-feather"
+import {connect} from "react-redux"
 
-const CustomNavbar = ({openCart}) => {
+const CustomNavbar = ({openCart, cart}) => {
     return <Navbar bg="light" expand="lg">
     <Container className="container-fluid">
       <Navbar.Brand href="#home"><h3>Lumin</h3></Navbar.Brand>
@@ -12,7 +13,12 @@ const CustomNavbar = ({openCart}) => {
           <Nav.Link href="#link">Learn</Nav.Link>
         </Nav>
         <Nav className="ml-auto">
-          <Nav.Link onClick={openCart}>Account <ShoppingCart/></Nav.Link>
+          <Nav.Link onClick={openCart}>
+            Account <ShoppingCart/> 
+            {
+              cart.length > 0?  <span class="ml-2 badge rounded badge-secondary">{cart.length}</span>: null
+            }
+          </Nav.Link>
         </Nav>
         {/* <Form inline>
           <FormControl type="text" placeholder="Search" className="mr-sm-2" />
@@ -23,4 +29,8 @@ const CustomNavbar = ({openCart}) => {
   </Navbar>
 }
 
-export default CustomNavbar
+
+const mapStateToProps = (state) => ({cart: state.cart})
+const mapDispatchToProps = {}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CustomNavbar)

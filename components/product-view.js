@@ -1,4 +1,3 @@
-import '../styles/product-view.module.css'
 import {getSymbol, formatCurrency} from "../utils/helpers"
 
 const Product = ({item, addToCart, currentCurrency}) => {
@@ -9,7 +8,9 @@ const Product = ({item, addToCart, currentCurrency}) => {
             </div>
             <div className="col-12 mt-3 text-center product-box">
                 <h4>{item.title}</h4>
-                <small>From {getSymbol(currentCurrency)} {formatCurrency(item.price)}</small>
+            </div>
+            <div className="col-12 text-center">
+                From {getSymbol(currentCurrency)} {formatCurrency(item.price)}
             </div>
             <div className="col-12 text-center mt-2">
                 <button className="btn btn-gray-green-dark px-5" onClick={() => addToCart(item)}> <small>Add to cart</small></button>
